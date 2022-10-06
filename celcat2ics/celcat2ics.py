@@ -74,7 +74,6 @@ def json_to_ics(json_cal: list) -> list[str]:
     :return: lines of the ics file
     """
     ret = []
-
     parse_time = datetime.datetime.now().strftime("%Y%m%dT%H%M%S")
 
     def ics_date(date: str):
@@ -124,11 +123,10 @@ def json_to_ics(json_cal: list) -> list[str]:
                 "END": "VEVENT",
             }
         )
-        cool = description.split(r"\n")
-        print(cool, end="\n\n")
 
     write(ICS_FOOTER)
 
     return ret
+
 
 # vim: set ts=4 sts=4 sw=4 et :
