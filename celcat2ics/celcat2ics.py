@@ -82,12 +82,12 @@ def json_to_ics(json_cal: list) -> list[str]:
 
     def write(stuff: dict) -> None:
         """Quick write closure"""
-        ret.extend([f"{key}: {val}" for key, val in stuff.items()])
+        ret.extend([f"{key}:{val}" for key, val in stuff.items()])
 
     write(ICS_HEADER)
 
     # Calendar stuff
-    # TODO: add more information to the keys instead of having a big description
+    # TODO: cut description
     for item in json_cal:
         if item["sites"]:
             location = ", ".join(item["sites"])
@@ -105,10 +105,16 @@ def json_to_ics(json_cal: list) -> list[str]:
         description = description.replace("\n", "")
         description = description.replace("<br />", "\\n")
 
+        # uid
+        uid = item['id']
+        uid = uid.replace("-", "")
+        uid = uid.replace(":", "-")
+
         write(
             {
                 "BEGIN": "VEVENT",
-                "CREATED": "19700101T000000Z",
+                "UID": uid,
+                "CREATED": "19700101T000000",
                 "DTSTAMP": parse_time,
                 "DTSTART": ics_date(item["start"]),
                 "DTEND": ics_date(item["end"]),
