@@ -78,6 +78,8 @@ def json_to_ics(json_cal: list) -> list[str]:
 
     def ics_date(date: str):
         """clean up a date"""
+        if date is None:
+            return "Unknow"
         return date.replace(":", "").replace("-", "")
 
     def write(stuff: dict) -> None:
@@ -100,13 +102,13 @@ def json_to_ics(json_cal: list) -> list[str]:
             summary = "No summary"
 
         # description processing
-        description = item["description"]
+        description = item["description"] or ""
         description = description.replace("\r", "")
         description = description.replace("\n", "")
         description = description.replace("<br />", "\\n")
 
         # uid
-        uid = item['id']
+        uid = item['id'] or ""
         uid = uid.replace("-", "")
         uid = uid.replace(":", "-")
 
